@@ -177,3 +177,10 @@ app_license = "MIT"
 # 	"connecthe.auth.validate"
 # ]
 
+override_whitelisted_methods = {
+    'erpnext.shopping_cart.cart.update_cart': 'connecthe.shopping_cart.cart.update_cart',
+    'erpnext.shopping_cart.cart.get_shopping_cart_menu': 'connecthe.shopping_cart.cart.get_shopping_cart_menu',
+    'erpnext.shopping_cart.cart.get_cart_quotation': 'connecthe.shopping_cart.cart.get_cart_quotation',
+    'erpnext.shopping_cart.product_info.get_product_info_for_website': 'connecthe.shopping_cart.product_info.get_product_info_for_website',
+    'erpnext.shopping_cart.cart.place_order': 'connecthe.shopping_cart.cart.place_order'
+}
