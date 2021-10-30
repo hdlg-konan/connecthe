@@ -180,3 +180,7 @@ app_license = "MIT"
 override_whitelisted_methods = {
     'erpnext.shopping_cart.cart.place_order': 'connecthe.shopping_cart.cart.place_order'
 }
+integration_services =  ["CSB"]
+doctype_js = {
+    "CSB Payment": "integrations/doctype/CSB_settings/CSB_settings.js"
+}
