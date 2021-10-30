@@ -176,7 +176,7 @@ app_license = "MIT"
 # auth_hooks = [
 # 	"connecthe.auth.validate"
 # ]
-
+fixtures = ["Custom Field"]
 override_whitelisted_methods = {
     'erpnext.shopping_cart.cart.place_order': 'connecthe.shopping_cart.cart.place_order'
 }
