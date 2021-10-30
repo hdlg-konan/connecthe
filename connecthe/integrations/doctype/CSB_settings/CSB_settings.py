@@ -42,20 +42,18 @@ Example:
 payment_status - payment gateway will put payment status on callback.
 For CSB payment status is Authorized
 """
+from __future__ import unicode_literals
 
 import frappe
 from frappe import _
 import json
 import connecthe
 import hmac
-import CSB
 import hashlib
 import requests, base64
-from urllib.parse import urlencode
 from frappe.model.document import Document
 from frappe.utils import get_url, call_hook_method, cint, get_timestamp
-from frappe.integrations.utils import (make_get_request, make_post_request, create_request_log,
-	create_payment_gateway)
+from frappe.integrations.utils import create_payment_gateway
 
 class CSBSettings(Document):
 	supported_currencies = ["XPF"]
@@ -88,42 +86,6 @@ class CSBSettings(Document):
 		if currency not in self.supported_currencies:
 			frappe.throw(_("Please select another payment method. CSB does not support transactions in currency '{0}'").format(currency))
 
-	def setup_addon(self, settings, **kwargs):
-		"""
-			Addon template:
-			{
-				"item": {
-					"name": row.upgrade_type,
-					"amount": row.amount,
-					"currency": currency,
-					"description": "add-on description"
-				},
-				"quantity": 1 (The total amount is calculated as item.amount * quantity)
-			}
-		"""
-		url = "https://epaync.nc/api-payment/V4/Charge/SDKTest".format(kwargs.get('subscription_id'))
-
-		try:
-			if not frappe.conf.converted_rupee_to_paisa:
-				convert_rupee_to_paisa(**kwargs)
-
-			for addon in kwargs.get("addons"):
-				resp = make_post_request(
-					url,
-					auth=(settings.api_key, settings.api_secret),
-					data=json.dumps(addon),
-					headers={
-						"content-type": "application/json"
-					}
-				)
-				if not resp.get('id'):
-					frappe.log_error(str(resp), 'CSB Failed while creating subscription')
-		except:
-			frappe.log_error(frappe.get_traceback())
-			# failed
-			pass
-
-	
 	def get_payment_url(self, **kwargs):
 		integration_request = create_request_log(kwargs, "Host", "CSB")
 		return get_url("./integrations/CSB_checkout?token={0}".format(integration_request.name))
