@@ -180,4 +180,7 @@ fixtures = ["Custom Field"]
 override_whitelisted_methods = {
     'erpnext.shopping_cart.cart.place_order': 'connecthe.shopping_cart.cart.place_order'
 }
+override_whitelisted_methods = {
+    'erpnext.shopping_cart.cart.get_customer_address': 'connecthe.shopping_cart.cart.get_customer_address'
+}
 
